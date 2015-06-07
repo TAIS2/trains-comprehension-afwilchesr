@@ -39,23 +39,24 @@ public class Train {
         for (int i = 0; i < WAGONSNUMBER; i++) {
             int availableCapacity = (wagons.get(i).getChairs() - wagons.get(i).getOccupiedChairs());
             int reservationSize = r.getFamily().getMembers().size();
-            if (reservationSize <= availableCapacity) {
-                if (wagons.get(i).getReservations() != null) {
-                    for (int j = 0; j < wagons.get(i).getReservations().size(); j++) {
-                        reservations.add(wagons.get(i).getReservations().get(j));
-                    }
-                    reservations.add(r);
-                } else {
-                    reservations.add(r);
-                }
-                wagons.get(i).setReservations(reservations);
-                int newWagonOccupiedChairs = wagons.get(i).getOccupiedChairs() + reservationSize;
-                wagons.get(i).setOccupiedChairs(newWagonOccupiedChairs);
-                System.out.println("Family with reservation #" + r.getId()
-                        + " added to wagon #" + (i + 1)+ ".");
-                return;
+            if (reservationSize > availableCapacity) {
+                continue;
             }
+            if (wagons.get(i).getReservations() != null) {
+                for (int j = 0; j < wagons.get(i).getReservations().size(); j++) {
+                    reservations.add(wagons.get(i).getReservations().get(j));
+                }
+                reservations.add(r);
+            } else {
+                reservations.add(r);
+            }
+            wagons.get(i).setReservations(reservations);
+            int newWagonOccupiedChairs = wagons.get(i).getOccupiedChairs() + reservationSize;
+            wagons.get(i).setOccupiedChairs(newWagonOccupiedChairs);
+            System.out.println("Family with reservation #" + r.getId()
+                    + " added to wagon #" + (i + 1) + ".");
+            return;
         }
-
     }
+
 }
