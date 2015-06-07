@@ -49,7 +49,7 @@ public class Train {
                     reservations.add(r);
                 }
                 wagons.get(i).setReservations(reservations);
-                int newWagonOccupiedChairs = wagons.get(0).getOccupiedChairs() + reservationSize;
+                int newWagonOccupiedChairs = wagons.get(i).getOccupiedChairs() + reservationSize;
                 wagons.get(i).setOccupiedChairs(newWagonOccupiedChairs);
                 System.out.println("Family with reservation #" + r.getId()
                         + " added to wagon #" + (i + 1)+ ".");
