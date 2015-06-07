@@ -44,6 +44,7 @@ public class Train {
                     for (int j = 0; j < wagons.get(i).getReservations().size(); j++) {
                         reservations.add(wagons.get(i).getReservations().get(j));
                     }
+                    reservations.add(r);
                 } else {
                     reservations.add(r);
                 }
