@@ -34,10 +34,11 @@ public class Train {
         this.wagons = wagons;
     }
 
+    //While whithout nesting
     public void accommodate(Reservation reservation) {
         ArrayList<Reservation> reservations = new ArrayList<>();
         int i = 0;
-        while(i < WAGONSNUMBER){
+        while (i < WAGONSNUMBER) {
             int availableCapacity = (wagons.get(i).getChairs() - wagons.get(i).getOccupiedChairs());
             int reservationSize = reservation.getFamily().getMembers().size();
             if (reservationSize > availableCapacity) {
@@ -61,13 +62,14 @@ public class Train {
             return;
         }
     }
-    
+// do while whithout nesting
+
     public void accommodate1(Reservation reservation) {
         ArrayList<Reservation> reservations = new ArrayList<>();
         int i = 0;
-        do{            
-            if (reservation.getFamily().getMembers().size() >
-                    (wagons.get(i).getChairs() - wagons.get(i).getOccupiedChairs())) {
+        do {
+            if (reservation.getFamily().getMembers().size()
+                    > (wagons.get(i).getChairs() - wagons.get(i).getOccupiedChairs())) {
                 i++;
                 continue;
             }
@@ -80,14 +82,67 @@ public class Train {
                 reservations.add(reservation);
             }
             wagons.get(i).setReservations(reservations);
-            int newWagonOccupiedChairs = wagons.get(i).getOccupiedChairs() + 
-                    reservation.getFamily().getMembers().size();
+            int newWagonOccupiedChairs = wagons.get(i).getOccupiedChairs()
+                    + reservation.getFamily().getMembers().size();
             wagons.get(i).setOccupiedChairs(newWagonOccupiedChairs);
             System.out.println("Family with reservation #" + reservation.getId()
                     + " added to wagon #" + (i + 1) + ".");
             i++;
             return;
-        }while(i < WAGONSNUMBER);
+        } while (i < WAGONSNUMBER);
     }
 
+    //While whith nesting
+    public void accommodate2(Reservation reservation) {
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        int i = 0;
+        while (i < WAGONSNUMBER) {
+            int availableCapacity = (wagons.get(i).getChairs() - wagons.get(i).getOccupiedChairs());
+            int reservationSize = reservation.getFamily().getMembers().size();
+            if (reservationSize <= availableCapacity) {
+                if (wagons.get(i).getReservations() != null) {
+                    for (int j = 0; j < wagons.get(i).getReservations().size(); j++) {
+                        reservations.add(wagons.get(i).getReservations().get(j));
+                    }
+                    reservations.add(reservation);
+                } else {
+                    reservations.add(reservation);
+                }
+                wagons.get(i).setReservations(reservations);
+                int newWagonOccupiedChairs = wagons.get(i).getOccupiedChairs() + reservationSize;
+                wagons.get(i).setOccupiedChairs(newWagonOccupiedChairs);
+                System.out.println("Family with reservation #" + reservation.getId()
+                        + " added to wagon #" + (i + 1) + ".");
+                return;
+            }
+            i++;
+        }
+    }
+
+    //do while whith nesting
+    public void accommodate3(Reservation reservation) {
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        int i = 0;
+        do {
+            if (reservation.getFamily().getMembers().size()
+                    <= (wagons.get(i).getChairs() - wagons.get(i).getOccupiedChairs())) {
+                if (wagons.get(i).getReservations() != null) {
+                    for (int j = 0; j < wagons.get(i).getReservations().size(); j++) {
+                        reservations.add(wagons.get(i).getReservations().get(j));
+                    }
+                    reservations.add(reservation);
+                } else {
+                    reservations.add(reservation);
+                }
+                wagons.get(i).setReservations(reservations);
+                int newWagonOccupiedChairs = wagons.get(i).getOccupiedChairs()
+                        + reservation.getFamily().getMembers().size();
+                wagons.get(i).setOccupiedChairs(newWagonOccupiedChairs);
+                System.out.println("Family with reservation #" + reservation.getId()
+                        + " added to wagon #" + (i + 1) + ".");
+                return;
+            }
+            i++;
+        } while (i < WAGONSNUMBER);
+    }
 }
