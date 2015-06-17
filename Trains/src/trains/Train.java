@@ -34,29 +34,60 @@ public class Train {
         this.wagons = wagons;
     }
 
-    public void accommodate(Reservation r) {
+    public void accommodate(Reservation reservation) {
         ArrayList<Reservation> reservations = new ArrayList<>();
-        for (int i = 0; i < WAGONSNUMBER; i++) {
+        int i = 0;
+        while(i < WAGONSNUMBER){
             int availableCapacity = (wagons.get(i).getChairs() - wagons.get(i).getOccupiedChairs());
-            int reservationSize = r.getFamily().getMembers().size();
+            int reservationSize = reservation.getFamily().getMembers().size();
             if (reservationSize > availableCapacity) {
+                i++;
                 continue;
             }
             if (wagons.get(i).getReservations() != null) {
                 for (int j = 0; j < wagons.get(i).getReservations().size(); j++) {
                     reservations.add(wagons.get(i).getReservations().get(j));
                 }
-                reservations.add(r);
+                reservations.add(reservation);
             } else {
-                reservations.add(r);
+                reservations.add(reservation);
             }
             wagons.get(i).setReservations(reservations);
             int newWagonOccupiedChairs = wagons.get(i).getOccupiedChairs() + reservationSize;
             wagons.get(i).setOccupiedChairs(newWagonOccupiedChairs);
-            System.out.println("Family with reservation #" + r.getId()
+            System.out.println("Family with reservation #" + reservation.getId()
                     + " added to wagon #" + (i + 1) + ".");
+            i++;
             return;
         }
+    }
+    
+    public void accommodate1(Reservation reservation) {
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        int i = 0;
+        do{            
+            if (reservation.getFamily().getMembers().size() >
+                    (wagons.get(i).getChairs() - wagons.get(i).getOccupiedChairs())) {
+                i++;
+                continue;
+            }
+            if (wagons.get(i).getReservations() != null) {
+                for (int j = 0; j < wagons.get(i).getReservations().size(); j++) {
+                    reservations.add(wagons.get(i).getReservations().get(j));
+                }
+                reservations.add(reservation);
+            } else {
+                reservations.add(reservation);
+            }
+            wagons.get(i).setReservations(reservations);
+            int newWagonOccupiedChairs = wagons.get(i).getOccupiedChairs() + 
+                    reservation.getFamily().getMembers().size();
+            wagons.get(i).setOccupiedChairs(newWagonOccupiedChairs);
+            System.out.println("Family with reservation #" + reservation.getId()
+                    + " added to wagon #" + (i + 1) + ".");
+            i++;
+            return;
+        }while(i < WAGONSNUMBER);
     }
 
 }
